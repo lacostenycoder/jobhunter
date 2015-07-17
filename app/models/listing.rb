@@ -10,6 +10,7 @@ class Listing < ActiveRecord::Base
     listings = Listing.unscoped.load
     imported_ids = listings.empty? ? Array.new : listings.map(&:data_id)
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
+    puts jobs_from_craigslist.to_yaml
     jobs_from_craigslist.each{|job| Listing.from_cl(job)}
   end
 
