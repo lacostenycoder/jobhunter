@@ -1,0 +1,39 @@
+<% @junior.each do |listing| %>
+<table>
+  <tr>
+    <td>
+      <div class="hide">
+          Hide [x]
+      </div>
+    </td>
+    <td>
+      <div class="listing junior">
+        <%= link_to listing.description, listing.url %>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<% end %>
+<div class="space">
+
+</div>
+<hr><hr><hr>
+
+<% @listings.each do |listing| %>
+<table>
+  <tr>
+    <td>
+      <div class="hide">
+          Hide [x]
+      </div>
+    </td>
+    <td>
+      <div class="listing">
+        <%= link_to listing.description, listing.url %>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<% end %>
