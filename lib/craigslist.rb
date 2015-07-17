@@ -33,11 +33,11 @@ class CraigsList
   end
 
   def cities
-    Cities::CITIES
+    CITIES
   end
 
   def method_missing(method,*args)
-    super unless Cities::CITIES.include? city ||= extract_city(method)
+    super unless CITIES.include? city ||= extract_city(method)
 
     params = { query: args.first , city: city}
     params.merge!(title_only: true) if /titles/ =~ method
@@ -46,7 +46,7 @@ class CraigsList
   end
 
   def search_all_cities_for(query)
-    Cities::CITIES.flat_map do |city|
+    CITIES.flat_map do |city|
       search(city: city , query: query)
     end
   end
