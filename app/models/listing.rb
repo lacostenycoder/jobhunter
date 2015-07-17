@@ -18,8 +18,9 @@ class Listing < ActiveRecord::Base
     require 'craigslist'
     cl = CraigsList.new
     results = []
+    options={city: 'newyork'}
     keywords.each do |k|
-      result = cl.search_newyork_for(k, options={sort: 'date'})
+      result = cl.search_city_jobs(options, k)
       results << result
     end
     results = results.flatten!

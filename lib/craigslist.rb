@@ -9,6 +9,11 @@ class CraigsList
 
   ERRORS = [OpenURI::HTTPError]
 
+  def search_city_jobs( options ={city: city}, query)
+    uri = "http://#{options[:city]}.craigslist.org/search/jjj?query=" + query.split(' ').join("&")
+    nokogiri_scrape(uri, options)
+  end
+
   def search(options ={})
     if options[:title_only]
       options.merge!(srchType: "T")
@@ -16,6 +21,11 @@ class CraigsList
     end
     uri = "http://#{options[:city]}.craigslist.org/search/jjj?#{to_query(options)}"
 
+    nokogiri_scrape(uri)
+
+  end
+
+  def nokogiri_scrape(uri, options={})
     begin
       doc = Nokogiri::HTML(open(uri))
 
@@ -37,6 +47,7 @@ class CraigsList
   end
 
   def method_missing(method,*args)
+    binding.pry
     super unless CITIES.include? city ||= extract_city(method)
 
     params = { query: args.first , city: city}
