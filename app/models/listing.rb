@@ -16,7 +16,7 @@ class Listing < ActiveRecord::Base
 
   def self.fetch_jobs(keywords)
     require 'craigslist'
-    cl = CraigsList.new
+    cl = Craigslist.new
     results = []
     options={city: 'newyork'}
     keywords.each do |k|

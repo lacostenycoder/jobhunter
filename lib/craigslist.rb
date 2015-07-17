@@ -1,4 +1,4 @@
-class CraigsList
+class Craigslist
   #include Cities
   require 'nokogiri'
   require 'open-uri'
@@ -8,6 +8,9 @@ class CraigsList
   VALID_FIELDS = [:query, :srchType]
 
   ERRORS = [OpenURI::HTTPError]
+
+  def initialize
+  end
 
   def search_city_jobs( options ={city: city}, query)
     uri = "http://#{options[:city]}.craigslist.org/search/jjj?query=" + query.split(' ').join("&")
