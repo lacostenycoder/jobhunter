@@ -1,0 +1,4 @@
+$('.hide_listing').bind('ajax:success', function() {
+  console.log($(this));
+  $(this).closest('div').fadeOut();
+});

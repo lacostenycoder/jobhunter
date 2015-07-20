@@ -1,39 +1,8 @@
-<% @junior.each do |listing| %>
-<table>
-  <tr>
-    <td>
-      <div class="hide">
-          Hide [x]
-      </div>
-    </td>
-    <td>
-      <div class="listing junior">
-        <%= link_to listing.description, listing.url %>
-      </div>
-    </td>
-  </tr>
-</table>
+<h2>Recent Junior Listings</h2>
+<%= render partial: "listings", :locals => { :listings => @junior} %>
 
-<% end %>
-<div class="space">
+<h2>Recent Ruby Listings</h2>
+<%= render partial: "listings", :locals => { :listings => @ruby} %>
 
-</div>
-<hr><hr><hr>
-
-<% @listings.each do |listing| %>
-<table>
-  <tr>
-    <td>
-      <div class="hide">
-          Hide [x]
-      </div>
-    </td>
-    <td>
-      <div class="listing">
-        <%= link_to listing.description, listing.url %>
-      </div>
-    </td>
-  </tr>
-</table>
-
-<% end %>
+<h2>General Web Listings</h2>
+<%= render partial: "listings", :locals => { :listings => @listings} %>

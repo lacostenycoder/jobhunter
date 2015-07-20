@@ -30,6 +30,12 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'unicorn'
 gem 'sidekiq'
 
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'
+
+gem 'angularjs-rails'
+gem 'responders'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -60,4 +66,4 @@ group :test do
   #gem 'selenium-webdriver'
 end
 
-gem "rack-timeout"
+#gem "rack-timeout"

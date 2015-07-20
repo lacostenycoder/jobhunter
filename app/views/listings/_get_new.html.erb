@@ -1,0 +1,14 @@
+<h2>Recent Listings</h2>
+<% @listings.each do |listing| %>
+<div class="row-fluid" ng-controller="ListingCtrl">
+
+  <span class="mark-hide inline">
+    <%= link_to listing %>  Hide [x]
+  </span>
+
+  <span class="listing junior inline">
+    <%= link_to listing.description, listing.url %>
+  </span>
+
+</div>
+<% end %>

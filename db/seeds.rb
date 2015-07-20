@@ -6,5 +6,5 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-words = ["web developer", "web designer", "frontend developer", "ruby", "php", "Ruby on Rails", "php", "html css", "javascript"]
+words = ["web developer", "web designer", "frontend developer", "ruby", "php", "Ruby on Rails", "software developer", "html css", "javascript"]
 words.each{ |w| Keyword.create(word: w) }

@@ -1,8 +1,21 @@
 class Listing < ActiveRecord::Base
 
-  default_scope { where :hide => false && :create_at >= (Time.now - 72.hours) }
+  after_create :fix_url
 
+  scope :current, -> { where("created_at >= ?", Time.now - 72.hours) }
+  scope :recent, -> { where("created_at >= ?", Time.now - 6.hours) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
+
+  #scope :today, -> { where("created_at >= ? AND created_at < ?", Date.today, Date.tomorrow) }
+
+  def self.default_scope
+    where(:hide=> false)
+  end
+
+  def self.rubyrails
+     Listing.find_by_sql("select * from listings where lower(description) ILIKE '%ruby%' or lower(description) ILIKE '%rails%'")
+     .select{|l| !l.hide}
+  end
 
   def self.update_from_craigslist
     keywords = Keyword.all.map(&:word)
@@ -33,6 +46,14 @@ class Listing < ActiveRecord::Base
       data[:description] = data[:description].gsub(/xundo/, '')
     end
     listing = Listing.create(data)
+  end
+
+  def fix_url
+    malformed = self.url.match('http://newyork.craigslist.orghttp')
+    if malformed
+      self.url = "http:" + self.url.gsub(malformed.to_s, '')
+      self.save
+    end
   end
 
 end

@@ -1,18 +1,39 @@
 // Place all the styles related to the listings controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$listing: 20px;
+
+.id {
+  display: inline-block;
+  width: 80px;
+  a, a:visited {
+    color: black;
+    width: 140px !important;
+  }
+}
 
 .listing {
-  font-size: 20px;
+  font-size: $listing;
   a { color: rgb(119, 15, 115)}
   a:visited { color: rgb(57, 47, 102)}
+  padding: 4px;
 }
 
 .junior {
   @extend .listing;
-  a { color: red; }
+  a {
+    color: red;
+    font-weight: bold;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+   }
 }
 
 .space{
   margin-top: 20px;
+}
+
+.mark-hide{
+  @extend .listing;
+  font-size: 16px;
 }
