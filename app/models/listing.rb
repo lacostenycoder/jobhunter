@@ -41,15 +41,20 @@ class Listing < ActiveRecord::Base
     return results
   end
 
+  def is_new?
+    self.created_at >= Time.zone.now - 5.hour
+  end
+
   def self.from_cl(data)
     if data[:description].include? "xundo"
       data[:description] = data[:description].gsub(/xundo/, '')
     end
-    listing = Listing.create(data)
+    listing = Listing.new(data)
+    listing.fix_url
   end
 
   def fix_url
-    malformed = self.url.match('http://newyork.craigslist.orghttp')
+    malformed = self.url.match('http://newyork.craigslist.orghttp:')
     if malformed
       self.url = "http:" + self.url.gsub(malformed.to_s, '')
       self.save

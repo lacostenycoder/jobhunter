@@ -37,3 +37,8 @@ $listing: 20px;
   @extend .listing;
   font-size: 16px;
 }
+
+// set if listing created_at within last hour
+#hot {
+  color: green !important;
+}

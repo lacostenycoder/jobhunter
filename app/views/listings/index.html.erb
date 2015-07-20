@@ -1,3 +1,9 @@
+<%= button_to 'update listings', get_new_path, method: :get %>
+
+<div class="hide" id="whats-hot">
+    <h2>New Hot Listings! </h2>
+</div>
+
 <h2>Recent Junior Listings</h2>
 <%= render partial: "listings", :locals => { :listings => @junior} %>
 

@@ -1,14 +1,17 @@
 <% listings.each do |listing| %>
 <div class="row-fluid" ng-controller="ListingCtrl">
-  <span class="id inline span4"><%= link_to listing.id, listing %></span>
-  <span class="mark-hide inline" id="<%= 'listing_' + listing.id.to_s %>">
-    <%= link_to 'Hide [x]', "/hide_listing/#{listing.id}", data: {confirm: "Are you sure?"}, action: :hide_listing, method: :post, remote: true, class: 'hide_listing' %>
-  </span>
+  <% hot_or_cold = listing.is_new? ? 'hot' : 'cold' %>
+  <div class="<%= hot_or_cold %>">
 
-  <span class="listing junior inline">
-    <%= link_to listing.description, listing.url, target: "_blank" %>
-  </span>
+    <span class="id inline span4"><%= link_to listing.id, listing %></span>
+    <span class="mark-hide inline" id="<%= 'listing_' + listing.id.to_s %>">
+      <%= link_to 'Hide [x]', "/hide_listing/#{listing.id}", data: {confirm: "Are you sure?"}, action: :hide_listing, method: :post, remote: true, class: 'hide_listing' %>
+    </span>
 
+    <span class="listing junior inline">
+      <%= link_to listing.description, listing.url, target: "_blank", id: hot_or_cold %>
+    </span>
+  </div>
 </div>
 
 <% end %>
