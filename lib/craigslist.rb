@@ -50,7 +50,6 @@ class Craigslist
   end
 
   def method_missing(method,*args)
-    binding.pry
     super unless CITIES.include? city ||= extract_city(method)
 
     params = { query: args.first , city: city}

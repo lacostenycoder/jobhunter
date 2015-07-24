@@ -36,9 +36,7 @@ class Listing < ActiveRecord::Base
       result = cl.search_city_jobs(options, k)
       results << result
     end
-    results = results.flatten!
-    results = results.uniq!
-    return results
+    results.flatten.uniq
   end
 
   def is_new?
