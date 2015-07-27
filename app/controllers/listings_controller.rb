@@ -4,9 +4,9 @@ class ListingsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @junior = Listing.junior
-    @ruby = Listing.rubyrails
-    @listings = Listing.current
+    @junior = Listing.junior.reverse
+    @ruby = Listing.rubyrails.reverse
+    @listings = Listing.current.reverse
     @listings = (@listings - @ruby - @junior)
     respond_with(@listings, @junior, @ruby)
   end

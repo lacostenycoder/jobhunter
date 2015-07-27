@@ -1,3 +1,20 @@
 // Place all the styles related to the Keywords controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.keywords {
+  table, th, td {
+    border: 1px solid black;
+    border-spacing: 4px;
+    padding: 8px;
+    th {
+      border-style: none;
+    }
+  }
+
+  body, p, strong, td {
+    font-size: 20px;
+    margin: 20px;
+  }
+
+}

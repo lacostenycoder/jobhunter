@@ -2,7 +2,7 @@ class Listing < ActiveRecord::Base
 
   after_create :fix_url
 
-  scope :current, -> { where("created_at >= ?", Time.now - 72.hours) }
+  scope :current, -> { where("created_at >= ?", Time.now - 7.days) }
   scope :recent, -> { where("created_at >= ?", Time.now - 6.hours) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
 
@@ -49,6 +49,7 @@ class Listing < ActiveRecord::Base
     end
     listing = Listing.new(data)
     listing.fix_url
+    listing.save unless listing.persisted?
   end
 
   def fix_url
