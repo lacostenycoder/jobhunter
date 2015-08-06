@@ -1,5 +1,6 @@
+var lastHidden;
+var hot = $(".hot");
 
-var hot = $(".hot")
 $(document).ready(function(){
   showHot();
 });

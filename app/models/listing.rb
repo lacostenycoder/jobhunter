@@ -60,4 +60,8 @@ class Listing < ActiveRecord::Base
     end
   end
 
+  def self.get_last_hidden
+    Listing.unscoped.where(hide: true).order('updated_at DESC').first
+  end
+
 end

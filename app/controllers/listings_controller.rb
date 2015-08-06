@@ -22,6 +22,12 @@ class ListingsController < ApplicationController
     respond_to :js
   end
 
+  def undo_hide
+    @listing = Listing.get_last_hidden
+    @listing.update_attributes(hide: false)
+    respond_to :js
+  end
+
   def show
     respond_with(@listing)
   end

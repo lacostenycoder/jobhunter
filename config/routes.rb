@@ -18,7 +18,8 @@ Rails.application.routes.draw do
 
   get '/get_new', to: 'listings#get_new'
   post '/hide_listing/:id', to: 'listings#hide'
-  
+  post '/undo', to: 'listings#undo_hide'
+
   #get '/logout', to: 'sessions#destroy', as: 'signout'
 
   # Example resource route with options:

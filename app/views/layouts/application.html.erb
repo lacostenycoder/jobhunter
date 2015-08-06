@@ -7,6 +7,12 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= params["controller"] %>" id="<%= params["action"] %>">
+  <nav class="navbar navbar-default">
+    <ul class="nav navbar-nav">
+      <li><%= link_to 'Listings', listings_path %></li>
+      <li><%= link_to 'Keywords', keywords_path %></li>
+    </ul>
+  </nav>
   <div class="container">
     <%= yield %>
   </div>

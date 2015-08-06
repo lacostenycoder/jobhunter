@@ -12,6 +12,10 @@ $listing: 20px;
   }
 }
 
+#undo-hide {
+  position: fixed;
+}
+
 .listing {
   font-size: $listing;
   a { color: rgb(119, 15, 115)}
