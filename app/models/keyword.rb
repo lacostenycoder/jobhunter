@@ -8,6 +8,10 @@ class Keyword < ActiveRecord::Base
     where(:hide=> false)
   end
 
+  def self.hidden
+     Keyword.unscoped.where("hide", 'true')
+  end
+
   def associate_listings
     listings = Listing.unscoped.search(self.word)
     self.listings << listings

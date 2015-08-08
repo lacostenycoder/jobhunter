@@ -26,7 +26,12 @@ class Listing < ActiveRecord::Base
     imported_ids = listings.empty? ? Array.new : listings.map(&:data_id)
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
     puts jobs_from_craigslist.to_yaml
-    jobs_from_craigslist.each{|job| Listing.from_cl(job)}
+    jobs_from_craigslist.each do |job|
+      unless (job[:description].split(' ') & Keyword.hidden.map(&:word)).length > 0
+        Listing.from_cl(job)
+      else
+      end
+    end
   end
 
   def self.fetch_jobs(keywords)
