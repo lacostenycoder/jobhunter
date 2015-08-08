@@ -11,6 +11,10 @@ class ListingsController < ApplicationController
     respond_with(@listings, @junior, @ruby)
   end
 
+  def search
+    @listings = Listing.search(params[:search])
+  end
+
   def get_new
     Listing.update_from_craigslist
     @listings = Listing.recent

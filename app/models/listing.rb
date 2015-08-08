@@ -1,6 +1,8 @@
 class Listing < ActiveRecord::Base
 
-  after_create :fix_url
+  has_and_belongs_to_many :keywords, uniq: true
+
+  after_create :fix_url, :join_keywords
 
   scope :current, -> { where("created_at >= ?", Time.now - 7.days) }
   scope :recent, -> { where("created_at >= ?", Time.now - 6.hours) }
@@ -57,6 +59,27 @@ class Listing < ActiveRecord::Base
     if malformed
       self.url = "http:" + self.url.gsub(malformed.to_s, '')
       self.save
+    end
+  end
+
+  def join_keywords
+    keywords = Keyword.unscoped.select{|keyword| self.description.downcase.include? keyword[:word]}
+    self.keywords << keywords
+  end
+
+  def set_hidden
+    self.update_attributes(hide: true)
+  end
+
+  def set_visable
+    self.update_attributes(hide: false)
+  end
+
+  def self.search(search)
+    if search
+      Listing.where('lower(description) LIKE ?', "%#{search.downcase}%")
+    else
+      Listing.all
     end
   end
 

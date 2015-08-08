@@ -4,7 +4,7 @@ class KeywordsController < ApplicationController
   # GET /keywords
   # GET /keywords.json
   def index
-    @keywords = Keyword.all
+    @keywords = Keyword.unscoped
   end
 
   # GET /keywords/1
@@ -56,7 +56,7 @@ class KeywordsController < ApplicationController
   def destroy
     @keyword.destroy
     respond_to do |format|
-      format.html { redirect_to keywords_url, notice: 'Keyword was successfully destroyed.' }
+      format.html { redirect_to keywords_path, notice: 'Keyword was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,11 +64,11 @@ class KeywordsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_keyword
-      @keyword = Keyword.find(params[:id])
+      @keyword = Keyword.unscoped.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def keyword_params
-      params.require(:keyword).permit(:word)
+      params.require(:keyword).permit(:word, :hide)
     end
 end
