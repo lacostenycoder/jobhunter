@@ -5,7 +5,7 @@ class Listing < ActiveRecord::Base
   after_create :fix_url, :join_keywords
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
-  scope :recent, -> { where("post_date >= ?", Time.now - 6.hours).to_date }
+  scope :recent, -> { where("post_date >= ?", (Time.now - 6.hours).to_date) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%').current }
   scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%').current}
 
@@ -33,7 +33,7 @@ class Listing < ActiveRecord::Base
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
     # puts jobs_from_craigslist.to_yaml
     jobs_from_craigslist.each do |job|
-      unless (job[:description].split(' ') & Keyword.hidden.map(&:word)).length > 0
+      unless (job[:description].downcase.split(' ') & Keyword.hidden.map(&:word.downcase)).length > 0
         Listing.from_cl(job)
       else
       end

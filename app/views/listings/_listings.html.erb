@@ -1,5 +1,5 @@
 <% listings.each do |listing| %>
-<div class="row-fluid" ng-controller="ListingCtrl">
+<div class="row-fluid">
   <% hot_or_cold = listing.is_new? ? 'hot' : 'cold' %>
   <div class="<%= hot_or_cold %>">
 

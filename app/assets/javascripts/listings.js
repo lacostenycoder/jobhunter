@@ -1,16 +1,21 @@
 var lastHidden;
-var hot = $(".hot");
+var ready;
 
-$(document).ready(function(){
+ready = function(){
   $('#undo-hide').hide();
-  showHot();
   $('.hide-listing').click(function(){
     showUndoHideButton();
   });
-});
+  showHot();
+}
+
+$(document).ready(ready);
+$(document).on('page:change', ready);
 
 function showHot() {
-  hot = $(".hot")
+  var hot = function(){
+    return $(".hot");
+  }
   if(hot.length > 0) {
     $('#whats-hot').removeClass('hide');
     $.each(hot, function(k, v){

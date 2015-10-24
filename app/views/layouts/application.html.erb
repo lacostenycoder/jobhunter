@@ -27,12 +27,17 @@
       <li><%= link_to 'Do Filters', do_filters_path %></li>
     </ul>
   </nav>
-  <% if flash[:notice] %>
-  <div class="row">
-    <div class="notice text-center"><%= flash[:notice] %></div>
-  </div>
-  <% end %>
+
   <div class="container">
+    <% if flash[:notice] %>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-4 col-xs-12">
+        <div class="center-block">
+          <div class="btn btn-success btn-lg notice"><%= flash[:notice] %></div>
+        </div>
+      </div>
+    </div>
+    <% end %>
     <%= yield %>
   </div>
 </body>

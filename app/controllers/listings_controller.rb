@@ -30,7 +30,7 @@ class ListingsController < ApplicationController
     listings = Listing.ruby
     result = SpecialFilters.call(listings: listings)
     if result.num_filtered > 0
-      flash[:notice] = "${result.num_filtered} listings have been filtered!"
+      flash[:notice] = "${result.num_filtered > 0} listings have been filtered!"
     else
       flash[:notice] = "No filtered items found."
     end
