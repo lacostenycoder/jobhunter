@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151023061232) do
+ActiveRecord::Schema.define(version: 20151024185122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20151023061232) do
 
   add_index "keywords_listings", ["keyword_id"], name: "index_keywords_listings_on_keyword_id", using: :btree
   add_index "keywords_listings", ["listing_id"], name: "index_keywords_listings_on_listing_id", using: :btree
+
+  create_table "listing_filters", force: :cascade do |t|
+    t.string   "css_selector"
+    t.string   "text"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
 
   create_table "listings", force: :cascade do |t|
     t.string   "description"

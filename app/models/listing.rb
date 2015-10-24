@@ -4,19 +4,25 @@ class Listing < ActiveRecord::Base
 
   after_create :fix_url, :join_keywords
 
-  scope :current, -> { where("created_at >= ?", Time.now - 7.days) }
-  scope :recent, -> { where("created_at >= ?", Time.now - 6.hours) }
-  scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
+  scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
+  scope :recent, -> { where("post_date >= ?", Time.now - 6.hours).to_date }
+  scope :junior, -> { where("lower(description) ILIKE ?", '%junior%').current }
+  scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%').current}
 
   #scope :today, -> { where("created_at >= ? AND created_at < ?", Date.today, Date.tomorrow) }
 
   def self.default_scope
-    where(:hide=> false)
+    Listing.where(:hide=> false).order('post_date DESC')
   end
 
   def self.rubyrails
      Listing.find_by_sql("select * from listings where lower(description) ILIKE '%ruby%' or lower(description) ILIKE '%rails%'")
      .select{|l| !l.hide}
+  end
+
+  def self.purge_old(num_days)
+    old_listings = Listing.unscoped.where("post_date < ?", (Time.now - num_days.days).to_date)
+    old_listings.each{|listing| listing.destroy}
   end
 
   def self.update_from_craigslist
@@ -25,7 +31,7 @@ class Listing < ActiveRecord::Base
     listings = Listing.unscoped.load
     imported_ids = listings.empty? ? Array.new : listings.map(&:data_id)
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
-    puts jobs_from_craigslist.to_yaml
+    # puts jobs_from_craigslist.to_yaml
     jobs_from_craigslist.each do |job|
       unless (job[:description].split(' ') & Keyword.hidden.map(&:word)).length > 0
         Listing.from_cl(job)

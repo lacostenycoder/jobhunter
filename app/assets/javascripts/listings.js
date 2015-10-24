@@ -2,7 +2,11 @@ var lastHidden;
 var hot = $(".hot");
 
 $(document).ready(function(){
+  $('#undo-hide').hide();
   showHot();
+  $('.hide-listing').click(function(){
+    showUndoHideButton();
+  });
 });
 
 function showHot() {
@@ -15,18 +19,9 @@ function showHot() {
   }
 }
 
-
-// hot = $('.hot')
-//
-// showHot = ->
-//   hot = $('.hot')
-//   if hot.length > 0
-//     $('#whats-hot').removeClass 'hide'
-//     $.each hot, (k, v) ->
-//       $('#whats-hot').append $(v)
-//       return
-//   return
-//
-// $(document).ready ->
-//   showHot()
-//   return
+function showUndoHideButton() {
+  $('#undo-hide').show();
+  setTimeout(function() {
+   $('#undo-hide').fadeOut();
+ }, 3000 );
+}

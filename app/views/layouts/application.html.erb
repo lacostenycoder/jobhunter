@@ -21,9 +21,17 @@
           </ul>
         </span>
       </li>
+      <li><%= link_to 'Refresh List', get_new_path, method: :get %></li>
       <li><%= link_to 'Keywords', keywords_path %></li>
+      <li><%= link_to 'Filters', '#' %></li>
+      <li><%= link_to 'Do Filters', do_filters_path %></li>
     </ul>
   </nav>
+  <% if flash[:notice] %>
+  <div class="row">
+    <div class="notice text-center"><%= flash[:notice] %></div>
+  </div>
+  <% end %>
   <div class="container">
     <%= yield %>
   </div>

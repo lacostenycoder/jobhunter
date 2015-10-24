@@ -4,11 +4,38 @@ class ListingsController < ApplicationController
   respond_to :html, :json
 
   def index
-    @junior = Listing.junior.reverse
-    @ruby = Listing.rubyrails.reverse
-    @listings = Listing.current.reverse
+    @junior = Listing.junior
+    @ruby = Listing.rubyrails
+    @listings = Listing.current
     @listings = (@listings - @ruby - @junior)
     respond_with(@listings, @junior, @ruby)
+  end
+
+  def get_post_dates
+    @listings = Listing.all
+    @listings.each do |listing|
+      next if listing.post_date
+      result = AddListingPostDate.call(url: listing.url)
+      if result.date
+        listing.update_attributes(post_date: result.date)
+      else
+        listing.destroy
+      end
+    end
+    redirect_to :root
+  end
+
+  def do_filters
+    # scoped to ruby but remove scope to filter over all listings
+    listings = Listing.ruby
+    result = SpecialFilters.call(listings: listings)
+    if result.num_filtered > 0
+      flash[:notice] = "${result.num_filtered} listings have been filtered!"
+    else
+      flash[:notice] = "No filtered items found."
+    end
+    redirect_to :root
+
   end
 
   def search
