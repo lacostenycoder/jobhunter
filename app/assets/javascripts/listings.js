@@ -1,10 +1,17 @@
 var lastHidden;
 var ready;
-
+// use ready to wrap document ready into variable called on page:change 
 ready = function(){
   $('#undo-hide').hide();
   $('.hide-listing').click(function(){
     showUndoHideButton();
+  });
+  // close flash notice on clicks
+  $('#flash-notice-container').on('click','*', function(){
+    var flash = (function(){
+      return $('#flash-notice-container');
+    });
+    flash().text('');
   });
   showHot();
 }
