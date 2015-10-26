@@ -1,6 +1,5 @@
-var lastHidden;
 var ready;
-// use ready to wrap document ready into variable called on page:change 
+// use ready to wrap document ready into variable called on page:change
 ready = function(){
   $('#undo-hide').hide();
   $('.hide-listing').click(function(){

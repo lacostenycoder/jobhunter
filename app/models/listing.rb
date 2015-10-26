@@ -75,7 +75,7 @@ class Listing < ActiveRecord::Base
   end
 
   def join_keywords
-    keywords = Keyword.unscoped.select{|keyword| self.description.downcase.include? keyword[:word]}
+    keywords = Keyword.unscoped.select{|keyword| self.description.downcase.include? keyword[:word].downcase}
     self.keywords << keywords
   end
 
