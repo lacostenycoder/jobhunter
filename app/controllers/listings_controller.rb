@@ -27,10 +27,10 @@ class ListingsController < ApplicationController
 
   def do_filters
     # scoped to ruby but remove scope to filter over all listings
-    listings = Listing.ruby
+    listings = Listing.rubyrails
     result = SpecialFilters.call(listings: listings)
     if result.num_filtered > 0
-      flash[:notice] = "${result.num_filtered > 0} listings have been filtered!"
+      flash[:notice] = result.num_filtered.to_s + ' listings have been filtered!'
     else
       flash[:notice] = "No filtered items found."
     end

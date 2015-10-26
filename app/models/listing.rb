@@ -66,11 +66,12 @@ class Listing < ActiveRecord::Base
   end
 
   def fix_url
+    self.url = "http://" + self.url.split('//').last
     malformed = self.url.match('http://newyork.craigslist.orghttp:')
     if malformed
       self.url = "http:" + self.url.gsub(malformed.to_s, '')
-      self.save
     end
+    self.save if self.changed?
   end
 
   def join_keywords
