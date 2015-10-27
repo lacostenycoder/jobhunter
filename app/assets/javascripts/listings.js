@@ -12,11 +12,22 @@ ready = function(){
     });
     flash().text('');
   });
+
+  $('.row-fluid').on('click','a', function(){
+    removeBoxes();
+    var that = $(this).parent().parent();
+    that.addClass('boxed-row');
+  });
+
   showHot();
 }
 
 $(document).ready(ready);
 $(document).on('page:change', ready);
+
+function removeBoxes(){
+  $('.boxed-row').removeClass('boxed-row');
+}
 
 function showHot() {
   var hot = function(){
