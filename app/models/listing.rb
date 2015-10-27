@@ -16,8 +16,10 @@ class Listing < ActiveRecord::Base
   end
 
   def self.rubyrails
-     Listing.find_by_sql("select * from listings where lower(description) ILIKE '%ruby%' or lower(description) ILIKE '%rails%'")
-     .select{|l| !l.hide}
+    listings_ruby = Listing.ruby
+    listing_rails = Listing.where("lower(description) ILIKE ?", '%rails%').current
+    listings = listings_ruby + listing_rails
+    listings.flatten
   end
 
   def self.purge_old(num_days)

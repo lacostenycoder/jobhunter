@@ -18,6 +18,7 @@ class SpecialFilters
           end
         end
         listing.update_attributes(hide: true) if filter
+        filter = false
       rescue OpenURI::HTTPError => ex
         context.errors += 1
       end

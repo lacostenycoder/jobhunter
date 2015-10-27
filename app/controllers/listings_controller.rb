@@ -18,8 +18,10 @@ class ListingsController < ApplicationController
       result = AddListingPostDate.call(url: listing.url)
       if result.date
         listing.update_attributes(post_date: result.date)
-      else
+      elsif result.doc = 404
         listing.destroy
+      else
+        listing.update_attributes(hide: true)
       end
     end
     redirect_to :root
@@ -27,7 +29,7 @@ class ListingsController < ApplicationController
 
   def do_filters
     # scoped to ruby but remove scope to filter over all listings
-    listings = Listing.rubyrails
+    listings = Listing.all
     result = SpecialFilters.call(listings: listings)
     if result.num_filtered > 0
       flash[:notice] = result.num_filtered.to_s + ' listings have been filtered!'
