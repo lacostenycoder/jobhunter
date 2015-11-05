@@ -16,10 +16,10 @@ class Listing < ActiveRecord::Base
   end
 
   def self.rubyrails
-    listings_ruby = Listing.ruby
-    listing_rails = Listing.where("lower(description) ILIKE ?", '%rails%').current
+    listings_ruby = Listing.ruby.uniq
+    listing_rails = Listing.where("lower(description) ILIKE ?", '%rails%').current.uniq
     listings = listings_ruby + listing_rails
-    listings.flatten
+    listings.flatten.uniq
   end
 
   def self.purge_old(num_days)
