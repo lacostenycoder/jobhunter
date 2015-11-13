@@ -1,0 +1,20 @@
+<nav class="navbar navbar-default">
+  <ul class="nav navbar-nav">
+    <li>
+      <span class="listings">
+        <button class="btn btn-default dropdown-toggle top-space-10" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Listings
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><%= link_to 'Listings', listings_path %></li>
+          <li><%= link_to 'Filter Listings', search_path %></li>
+        </ul>
+      </span>
+    </li>
+    <li><%= link_to 'Get New Listings', get_new_path, method: :get %></li>
+    <li><%= link_to 'Keywords', keywords_path %></li>
+    <!-- <li><%= link_to 'Filters', '#' %></li> -->
+    <li><%= link_to 'Do Filters', do_filters_path %></li>
+  </ul>
+</nav>

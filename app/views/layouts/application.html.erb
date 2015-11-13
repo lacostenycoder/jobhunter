@@ -7,27 +7,8 @@
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= params["controller"] %>" id="<%= params["action"] %>">
-  <nav class="navbar navbar-default">
-    <ul class="nav navbar-nav">
-      <li>
-        <span class="listings">
-          <button class="btn btn-default dropdown-toggle top-space-10" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Listings
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><%= link_to 'Listings', listings_path %></li>
-            <li><%= link_to 'Filter Listings', search_path %></li>
-          </ul>
-        </span>
-      </li>
-      <li><%= link_to 'Refresh List', get_new_path, method: :get %></li>
-      <li><%= link_to 'Keywords', keywords_path %></li>
-      <li><%= link_to 'Filters', '#' %></li>
-      <li><%= link_to 'Do Filters', do_filters_path %></li>
-    </ul>
-  </nav>
 
+  <%= render partial: "shared/navbar" %>
   <div class="container" id="flash-notice-container">
     <% if flash[:notice] %>
     <div class="row">
@@ -39,6 +20,7 @@
     </div>
     <% end %>
   </div>
+
   <div class="container" id="main-body-container">
     <%= yield %>
   </div>

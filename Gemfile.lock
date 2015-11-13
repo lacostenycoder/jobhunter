@@ -81,6 +81,11 @@ GEM
     daemons (1.2.2)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
+    delayed_job (4.1.1)
+      activesupport (>= 3.0, < 5.0)
+    delayed_job_active_record (4.1.0)
+      activerecord (>= 3.0, < 5)
+      delayed_job (>= 3.0, < 5)
     diff-lcs (1.2.5)
     dotenv (2.0.1)
     dotenv-rails (2.0.1)
@@ -250,6 +255,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   cucumber-rails
   database_cleaner
+  delayed_job_active_record
   dotenv-rails
   interactor-rails (~> 2.0)
   jbuilder (~> 2.0)

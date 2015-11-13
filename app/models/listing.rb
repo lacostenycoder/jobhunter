@@ -28,6 +28,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.update_from_craigslist
+    binding.pry
     keywords = Keyword.all.map(&:word)
     new_jobs = []
     listings = Listing.unscoped.load
@@ -74,6 +75,42 @@ class Listing < ActiveRecord::Base
       self.url = "http:" + self.url.gsub(malformed.to_s, '')
     end
     self.save if self.changed?
+  end
+
+  def fetch_post_date
+    result = AddListingPostDate.call(url: self.url)
+    if result.date
+      self.update_attributes(post_date: result.date)
+    elsif result.doc = 404
+      self.destroy
+    else
+      self.update_attributes(hide: true)
+    end
+  end
+
+  def remove_if_expired
+    return if updated_at >= (Time.now - 7.days).to_datetime
+    require 'open-uri'
+    begin
+      doc = Nokogiri::HTML(open(self.url))
+    rescue Exception => error
+      self.destroy if error.message == "404 Not Found"
+      p error.message
+      return
+    end
+    binding.pry if error
+    date = doc.css('#display-date').text
+    if date == ""
+      self.destroy
+    else
+      date = date.split(':')[1].strip.split.first.to_date
+      update_attributes(post_date: date)
+    end
+  end
+
+  def self.run_filters
+    listings = Listing.all
+    SpecialFilters.call(listings: listings)
   end
 
   def join_keywords

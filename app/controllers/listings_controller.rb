@@ -14,30 +14,16 @@ class ListingsController < ApplicationController
   def get_post_dates
     @listings = Listing.all
     @listings.each do |listing|
-      next if listing.post_date
-      result = AddListingPostDate.call(url: listing.url)
-      if result.date
-        listing.update_attributes(post_date: result.date)
-      elsif result.doc = 404
-        listing.destroy
-      else
-        listing.update_attributes(hide: true)
-      end
+      # listing.delay.fetch_post_date
+      listing.delay.remove_if_expired
     end
     redirect_to :root
   end
 
   def do_filters
     # scoped to ruby but remove scope to filter over all listings
-    listings = Listing.all
-    result = SpecialFilters.call(listings: listings)
-    if result.num_filtered > 0
-      flash[:notice] = result.num_filtered.to_s + ' listings have been filtered!'
-    else
-      flash[:notice] = "No filtered items found."
-    end
-    redirect_to :root
-
+    Listing.delay.run_filters
+    redirect_to :root, notice: "Running filters..."
   end
 
   def search
@@ -47,6 +33,7 @@ class ListingsController < ApplicationController
   def get_new
     Listing.update_from_craigslist
     @listings = Listing.recent
+    redirect_to listings_path, notice: "Fetching listings... check back soon"
   end
 
   def hide
