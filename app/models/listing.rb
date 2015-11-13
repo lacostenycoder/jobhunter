@@ -28,7 +28,6 @@ class Listing < ActiveRecord::Base
   end
 
   def self.update_from_craigslist
-    binding.pry
     keywords = Keyword.all.map(&:word)
     new_jobs = []
     listings = Listing.unscoped.load
@@ -98,7 +97,6 @@ class Listing < ActiveRecord::Base
       p error.message
       return
     end
-    binding.pry if error
     date = doc.css('#display-date').text
     if date == ""
       self.destroy
