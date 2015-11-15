@@ -14,8 +14,7 @@ class ListingsController < ApplicationController
   def get_post_dates
     @listings = Listing.all
     @listings.each do |listing|
-      # listing.delay.fetch_post_date
-      listing.delay.remove_if_expired
+      RemoveExpiredListingJob.perform_later(listing.id)
     end
     redirect_to :root
   end
@@ -31,8 +30,7 @@ class ListingsController < ApplicationController
   end
 
   def get_new
-    Listing.update_from_craigslist
-    @listings = Listing.recent
+    GetNewListingsJob.perform_later
     redirect_to listings_path, notice: "Fetching listings... check back soon"
   end
 

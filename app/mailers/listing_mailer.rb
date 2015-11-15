@@ -1,7 +1,8 @@
 class ListingMailer < ApplicationMailer
 
-  def junior_email(email)
-    @junior_listings = Listing.junior
+  def listings_email(email, listings)
+    @listings = listings
+    mail(to: email)
   end
 
 end

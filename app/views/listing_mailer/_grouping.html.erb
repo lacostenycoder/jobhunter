@@ -1,0 +1,5 @@
+<% @listings.each do |listing| %>
+  <div class="listing">
+    <%= link_to listing.description, listing.url %>
+  </div>
+<% end %>

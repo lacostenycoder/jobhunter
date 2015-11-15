@@ -1,11 +1,11 @@
 class Listing < ActiveRecord::Base
 
   has_and_belongs_to_many :keywords, uniq: true
-
+  validates_presence_of :data_id, uniq: true
   after_create :fix_url, :join_keywords
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
-  scope :recent, -> { where("post_date >= ?", (Time.now - 6.hours).to_date) }
+  scope :recent, -> { where("post_date >= ?", (Time.now - 3.days).to_date) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%').current }
   scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%').current}
 
@@ -33,13 +33,13 @@ class Listing < ActiveRecord::Base
     listings = Listing.unscoped.load
     imported_ids = listings.empty? ? Array.new : listings.map(&:data_id)
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
-    # puts jobs_from_craigslist.to_yaml
     jobs_from_craigslist.each do |job|
+      p job.inspect
       unless (job[:description].downcase.split(' ') & Keyword.hidden.map(&:word.downcase)).length > 0
         Listing.from_cl(job)
-      else
       end
     end
+    SendListingsEmailerJob.set(wait: 1.minute).perform_later
   end
 
   def self.fetch_jobs(keywords)
@@ -62,9 +62,12 @@ class Listing < ActiveRecord::Base
     if data[:description].include? "xundo"
       data[:description] = data[:description].gsub(/xundo/, '')
     end
-    listing = Listing.new(data)
-    listing.fix_url
-    listing.save unless listing.persisted?
+      listing = Listing.unscoped.first_or_initialize(data_id: data[:id])
+    unless listing.persisted?
+      listing.update_attributes(data)
+      listing.fix_url
+      listing.save
+    end
   end
 
   def fix_url
