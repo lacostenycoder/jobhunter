@@ -86,11 +86,6 @@ GEM
     daemons (1.2.2)
     database_cleaner (1.4.1)
     debug_inspector (0.0.2)
-    delayed_job (4.1.1)
-      activesupport (>= 3.0, < 5.0)
-    delayed_job_active_record (4.1.0)
-      activerecord (>= 3.0, < 5)
-      delayed_job (>= 3.0, < 5)
     diff-lcs (1.2.5)
     dotenv (2.0.1)
     dotenv-rails (2.0.1)
@@ -169,11 +164,6 @@ GEM
       rails-deprecated_sanitizer (>= 1.0.1)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
-    rails_12factor (0.0.3)
-      rails_serve_static_assets
-      rails_stdout_logging
-    rails_serve_static_assets (0.0.4)
-    rails_stdout_logging (0.0.3)
     railties (4.2.1)
       actionpack (= 4.2.1)
       activesupport (= 4.2.1)
@@ -280,7 +270,6 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   cucumber-rails
   database_cleaner
-  delayed_job_active_record
   dotenv-rails
   interactor-rails (~> 2.0)
   jbuilder (~> 2.0)
@@ -290,7 +279,6 @@ DEPENDENCIES
   pg
   pry-rails
   rails (= 4.2.1)
-  rails_12factor
   responders
   rspec
   rspec-rails
