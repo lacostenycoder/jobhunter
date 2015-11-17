@@ -6,8 +6,9 @@ class Listing < ActiveRecord::Base
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
   scope :recent, -> { where("post_date >= ?", (Time.now - 3.days).to_date) }
-  scope :junior, -> { where("lower(description) ILIKE ?", '%junior%').current }
-  scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%').current}
+  scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
+  scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%') }
+  scope :no_post_date, -> { where(post_date: nil) }
 
   #scope :today, -> { where("created_at >= ? AND created_at < ?", Date.today, Date.tomorrow) }
 
@@ -39,7 +40,6 @@ class Listing < ActiveRecord::Base
         Listing.from_cl(job)
       end
     end
-    SendListingsEmailerJob.set(wait: 1.minute).perform_later
   end
 
   def self.fetch_jobs(keywords)

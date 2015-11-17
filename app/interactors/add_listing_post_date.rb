@@ -9,7 +9,7 @@ class AddListingPostDate
         date = doc.css('#display-date').text
         date = date.split(':')[1].strip.split.first.to_date
         context.date = date
-      rescue OpenURI::HTTPError => ex
+      rescue
         doc =  404
       context.fail!(message: doc)
       end

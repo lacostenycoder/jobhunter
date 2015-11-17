@@ -3,11 +3,11 @@
     <h2>New Hot Listings! </h2>
 </div>
 
-<h2>Recent Junior Listings</h2>
-<%= render partial: "listings", :locals => { :listings => @junior} %>
-
 <h2>Recent Ruby Listings</h2>
 <%= render partial: "listings", :locals => { :listings => @ruby} %>
+
+<h2>Recent Junior Listings</h2>
+<%= render partial: "listings", :locals => { :listings => @junior} %>
 
 <h2>General Web Listings</h2>
 <%= render partial: "listings", :locals => { :listings => @listings} %>
