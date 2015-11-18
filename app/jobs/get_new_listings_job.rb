@@ -8,6 +8,6 @@ class GetNewListingsJob < ActiveJob::Base
     listings.each{| l | l.fetch_post_date}
     logger.info "Listings pulling from Craigslist at #{Time.now}"
     Listing.run_filters
-    SendListingsEmailerJob.perform_now
+    #SendListingsEmailerJob.perform_now
   end
 end
