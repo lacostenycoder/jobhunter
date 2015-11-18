@@ -63,11 +63,11 @@ class Listing < ActiveRecord::Base
       data[:description] = data[:description].gsub(/xundo/, '')
     end
       listing = Listing.unscoped.first_or_initialize(data_id: data[:id])
-    unless listing.persisted?
+    # unless listing.persisted?
       listing.update_attributes(data)
       listing.fix_url
       listing.save
-    end
+    # end
   end
 
   def fix_url
