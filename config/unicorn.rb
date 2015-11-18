@@ -1,7 +1,7 @@
 worker_processes 3
 
 preload_app true
-timeout 300
+timeout 120
 
 if GC.respond_to?(:copy_on_write_friendly=)
   GC.copy_on_write_friendly = true
