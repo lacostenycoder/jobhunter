@@ -21,8 +21,18 @@ class ListingsController < ApplicationController
 
   def do_filters
     # scoped to ruby but remove scope to filter over all listings
-    Listing.delay.run_filters
+    #Listing.delay.run_filters
     redirect_to :root, notice: "Running filters..."
+  end
+
+  def purge_all
+    if params[:password] == "killemall"
+      Listing.delete_all
+      redirect_to :root, notice: "All Listings Removed!"
+    else
+      redirect_to :root, notice: "Invalid Password!"
+    end
+
   end
 
   def search

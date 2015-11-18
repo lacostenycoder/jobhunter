@@ -1,8 +1,8 @@
 class Listing < ActiveRecord::Base
 
   has_and_belongs_to_many :keywords#, uniq: true
-  #validates_presence_of :data_id, uniq: true
-  after_create :fix_url, :join_keywords
+  validates_presence_of :data_id, uniq: true
+  after_create :fix_url, :fetch_post_date, :join_keywords
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
   scope :recent, -> { where("post_date >= ?", (Time.now - 3.days).to_date) }
@@ -63,11 +63,9 @@ class Listing < ActiveRecord::Base
       data[:description] = data[:description].gsub(/xundo/, '')
     end
       listing = Listing.unscoped.find_or_initialize_by(data_id: data[:id])
-    # unless listing.persisted?
       listing.update_attributes(data)
       listing.fix_url
       listing.save
-    # end
   end
 
   def fix_url

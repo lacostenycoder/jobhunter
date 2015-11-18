@@ -22,5 +22,6 @@ Rails.application.routes.draw do
   post '/undo', to: 'listings#undo_hide'
   get '/get_post_dates', to: 'listings#get_post_dates'
   get '/do_filters', to: 'listings#do_filters'
+  get '/purge_all', to: 'listings#purge_all'
 
 end
