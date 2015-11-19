@@ -37,7 +37,9 @@ class Listing < ActiveRecord::Base
     jobs_from_craigslist.each do |job|
       p job.inspect
       unless (job[:description].downcase.split(' ') & Keyword.hidden.map(&:word.downcase)).length > 0
-        Listing.from_cl(job)
+        if Listing.where(data_id: job[:id]).length > 0
+          Listing.from_cl(job)
+        end
       end
     end
   end

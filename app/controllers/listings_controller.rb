@@ -26,13 +26,12 @@ class ListingsController < ApplicationController
   end
 
   def purge_all
-    if params[:password] == "killemall"
-      Listing.delete_all
+    if params[:password] && params[:password] == ENV['PURGE_LISTING_PASSWORD']
+      #Listing.delete_all
       redirect_to :root, notice: "All Listings Removed!"
     else
       redirect_to :root, notice: "Invalid Password!"
     end
-
   end
 
   def search
