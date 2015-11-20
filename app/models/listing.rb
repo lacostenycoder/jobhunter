@@ -1,6 +1,6 @@
 class Listing < ActiveRecord::Base
 
-  has_and_belongs_to_many :keywords#, uniq: true
+  has_and_belongs_to_many :keywords, uniq: true
   validates_presence_of :data_id, uniq: true
   after_create :fix_url, :fetch_post_date, :join_keywords
 
@@ -37,9 +37,9 @@ class Listing < ActiveRecord::Base
     jobs_from_craigslist.each do |job|
       p job.inspect
       unless (job[:description].downcase.split(' ') & Keyword.hidden.map(&:word.downcase)).length > 0
-        if Listing.where(data_id: job[:id]).length > 0
+        # if Listing.where(data_id: job[:id]).length > 0
           Listing.from_cl(job)
-        end
+        # end
       end
     end
   end
