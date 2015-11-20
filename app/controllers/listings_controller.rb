@@ -1,4 +1,5 @@
 class ListingsController < ApplicationController
+  http_basic_authenticate_with name: "admin", password: ENV['ADMIN_PASSWORD']
   before_action :set_listing, only: [:show, :edit, :update, :destroy]
 
   respond_to :html, :json

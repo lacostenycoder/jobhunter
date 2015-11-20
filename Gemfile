@@ -31,6 +31,11 @@ gem "interactor-rails", "~> 2.0"
 # Use Unicorn as the app server
 gem 'unicorn'
 gem 'sidekiq'
+# these needed for sidekiq web interface
+gem 'sinatra', require: nil
+
+gem 'mailgun_rails'
+
 
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'autoprefixer-rails'

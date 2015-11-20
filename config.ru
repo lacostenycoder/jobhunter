@@ -2,3 +2,12 @@
 
 require ::File.expand_path('../config/environment', __FILE__)
 run Rails.application
+
+require 'sidekiq/web'
+map '/sidekiq' do
+  use Rack::Auth::Basic, "Protected Area" do |username, password|
+    username == 'admin' && password == ENV['ADMIN_PASSWORD']
+  end
+
+  run Sidekiq::Web
+end
