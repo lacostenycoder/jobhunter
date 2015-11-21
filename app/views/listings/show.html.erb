@@ -9,6 +9,12 @@
   <strong>URL:</strong>
   <span class="id"><%= link_to @listing.url, @listing.url, target: "_blank" %></span>
 </p>
+<div class="">
+  Created at: <%= @listing.created_at %>
+</div>
+<div class="">
+  Updated at: <%= @listing.updated_at %>
+</div>
 
 <%= link_to 'Edit', edit_listing_path(@listing) %> |
 <%= link_to 'Back', listings_path %>

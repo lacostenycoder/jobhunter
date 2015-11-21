@@ -2,10 +2,12 @@ class Listing < ActiveRecord::Base
 
   has_and_belongs_to_many :keywords, uniq: true
   validates_presence_of :data_id, uniq: true
-  after_create :fix_url, :fetch_post_date, :join_keywords
+  #before_create :fetch_post_date
+  after_create :fix_url, :join_keywords
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
   scope :recent, -> { where("post_date >= ?", (Time.now - 3.days).to_date) }
+  scope :just_added, -> { where("post_date >= ?", (Time.now - 1.hour).to_date) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
   scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%') }
   scope :no_post_date, -> { where(post_date: nil) }
@@ -30,16 +32,14 @@ class Listing < ActiveRecord::Base
 
   def self.update_from_craigslist
     keywords = Keyword.all.map(&:word)
-    new_jobs = []
+    hidden_words = Keyword.hidden.map(&:word.downcase)
     listings = Listing.unscoped.load
     imported_ids = listings.empty? ? Array.new : listings.map(&:data_id)
     jobs_from_craigslist = fetch_jobs(keywords).select{|cl| !imported_ids.include? cl[:data_id] }
     jobs_from_craigslist.each do |job|
       p job.inspect
-      unless (job[:description].downcase.split(' ') & Keyword.hidden.map(&:word.downcase)).length > 0
-        # if Listing.where(data_id: job[:id]).length > 0
-          Listing.from_cl(job)
-        # end
+      unless (job[:description].downcase.split(' ') & hidden_words ).length > 0
+        Listing.from_cl(job)
       end
     end
   end
@@ -64,10 +64,12 @@ class Listing < ActiveRecord::Base
     if data[:description].include? "xundo"
       data[:description] = data[:description].gsub(/xundo/, '')
     end
-      listing = Listing.unscoped.find_or_initialize_by(data_id: data[:id])
-      listing.update_attributes(data)
-      listing.fix_url
-      listing.save
+    listing = Listing.unscoped.find_or_initialize_by(data_id: data[:id])
+    unless listing.persisted?
+      data.each{|k,v| listing[k] = v}
+      listing.fetch_post_date
+      listing.save if listing.post_date
+    end
   end
 
   def fix_url
@@ -82,11 +84,12 @@ class Listing < ActiveRecord::Base
   def fetch_post_date
     result = AddListingPostDate.call(url: self.url)
     if result.date
-      self.update_attributes(post_date: result.date)
+      self.post_date = result.date
+      return result.date
     elsif result.doc = 404
-      self.destroy
+      return "404 listing not found"
     else
-      self.update_attributes(hide: true)
+      return "unkown error"
     end
   end
 
@@ -110,7 +113,7 @@ class Listing < ActiveRecord::Base
   end
 
   def self.run_filters
-    listings = Listing.all
+    listings = Listing.just_added
     SpecialFilters.call(listings: listings)
   end
 
