@@ -7,6 +7,7 @@ class Listing < ActiveRecord::Base
 
   scope :current, -> { where("post_date >= ?", (Time.now - 7.days).to_date) }
   scope :recent, -> { where("post_date >= ?", (Time.now - 3.days).to_date) }
+  scope :email_last_sent, -> { where("updated_at > ?", EmailSent.first.created_at ) }
   scope :just_added, -> { where("post_date >= ?", (Time.now - 1.hour).to_date) }
   scope :junior, -> { where("lower(description) ILIKE ?", '%junior%') }
   scope :ruby, -> { where("lower(description) ILIKE ?", '%ruby%') }
