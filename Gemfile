@@ -1,10 +1,10 @@
+ruby '2.6.4'
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.11.1'
 # Use postgresql as the database for Active Record
-gem 'pg'
+gem 'pg', '0.20.0'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -37,7 +37,7 @@ gem 'sinatra', require: nil
 gem 'mailgun_rails'
 
 
-gem 'bootstrap-sass', '~> 3.2.0'
+#gem 'bootstrap-sass'#, '~> 3.2.0'
 gem 'autoprefixer-rails'
 
 #gem 'angularjs-rails'
